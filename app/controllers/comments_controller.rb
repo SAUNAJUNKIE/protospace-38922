@@ -5,18 +5,14 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to prototype_path(@prototype)
     else
-      @errors = @comment.errors.full_messages
-
-      render 'prototypes/show'
+      redirect_to prototype_path(@prototype, comment: @comment.content)
     end
   end
   
 
-  
-
   private
+
   def comment_params
-    params.require(:comment).permit(:content).merge(user_id: current_user.id, prototype_id: params[:prototype_id])
+    params.require(:comment).permit(:content).merge(user_id: current_user.id)
   end
 end
-
